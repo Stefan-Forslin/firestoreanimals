@@ -11,8 +11,8 @@ router.get('/', async (req, res) => {
 		return
 	}
 	let items = []
-	snapshot.forEach(docRef => {
-		const data = docRef.data()
+	snapshot.forEach(doc => {
+		const data = doc.data()
 		data.id = doc.id
 		items.push(data)
 	})
@@ -27,5 +27,14 @@ router.get('/:id', async (req, res) =>{
 	}
 	const data = docRef.data()
 	res.send(data)
+})
+router.post('/', async (req, res) => {
+	const object = req.body
+	if( !object || !object.name || !object.age){
+		res.sendStatus(400)
+		return
+	}
+	const docRef = await db.collection('animals').add(object)
+	res.send(docRef.id)
 })
 module.exports = router
