@@ -55,4 +55,13 @@ function isAnimalsObject(maybeObject){
 	return false
 	return true
 }
+router.delete('/:id', async (req, res) =>{
+	const id = req.params.id
+	if (!id){
+		res.sendStatus(400)
+		return
+	}
+    await db.collection('animals').doc(id).delete()
+	res.sendStatus(200)
+})
 module.exports = router
