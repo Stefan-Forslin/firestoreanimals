@@ -30,11 +30,29 @@ router.get('/:id', async (req, res) =>{
 })
 router.post('/', async (req, res) => {
 	const object = req.body
-	if( !object || !object.name || !object.age){
+	if(!isAnimalsObject(object)){
 		res.sendStatus(400)
 		return
 	}
 	const docRef = await db.collection('animals').add(object)
 	res.send(docRef.id)
 })
+router.put('/:id', async (req, res) => {
+	const object = req.body
+	const id = req.params.id
+	if(!object || !id){
+		res.sendStatus(400)
+		return
+	}
+	const docRef = db.collection('animals').doc(id)
+	await docRef.set(object, {merge: true})
+	res.sendStatus(200)
+})
+function isAnimalsObject(maybeObject){
+	if( !maybeObject)
+	return false
+    else if(!maybeObject.name || !maybeObject.age)
+	return false
+	return true
+}
 module.exports = router
