@@ -1,5 +1,10 @@
 const admin = require('firebase-admin')
-const privateKey = require('./private-key-animals.json')
+let privateKey
+if (process.env.PRIVATE_KEY){
+	privateKey = JSON.parse(process.env.PRIVATE_KEY)
+}else {
+    privateKey = require('./private-key-animals.json')
+}
 admin.initializeApp({
   credential: admin.credential.cert(privateKey)
 });

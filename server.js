@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const PORT = 1341
+const PORT = process.env.PORT || 1341
 const cors = require('cors')
 const path = require('path')
 const animals = require('./routes/animals.js')
